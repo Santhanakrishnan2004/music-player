@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#333333">
+    <title>Music Player PWA</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" href="icons/icon-192x192.png">
+    <link rel="apple-touch-icon" href="icons/icon-192x192.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="app-container">
+        <header>
+            <h1>Music Player</h1>
+            <p class="subtitle">Your music from the "music" folder</p>
+        </header>
+        
+        <main>
+            <div class="player-container">
+                <div class="album-art">
+                    <img id="album-art" src="icons/music-placeholder.png" alt="Album Art">
+                </div>
+                
+                <div class="song-details">
+                    <h2 id="song-title">Select a song</h2>
+                    <p id="song-artist">-</p>
+                </div>
+                
+                <div class="progress-container">
+                    <span id="current-time">0:00</span>
+                    <div class="progress-bar">
+                        <div class="progress" id="progress"></div>
+                    </div>
+                    <span id="duration">0:00</span>
+                </div>
+                
+                <div class="controls">
+                    <button id="prev" class="control-btn"><i class="fas fa-step-backward"></i></button>
+                    <button id="play" class="control-btn play-btn"><i class="fas fa-play"></i></button>
+                    <button id="next" class="control-btn"><i class="fas fa-step-forward"></i></button>
+                </div>
+                
+                <div class="volume-container">
+                    <i class="fas fa-volume-down"></i>
+                    <input type="range" id="volume" min="0" max="1" step="0.01" value="0.7">
+                    <i class="fas fa-volume-up"></i>
+                </div>
+            </div>
+            
+            <div class="playlist-container">
+                <h3>Playlist</h3>
+                <div id="playlist-status" class="playlist-status">Loading songs...</div>
+                <ul id="playlist" class="playlist"></ul>
+            </div>
+        </main>
+        
+        <div class="debug-panel">
+            <h3>Debug Info</h3>
+            <button id="refresh-btn" class="debug-btn">Refresh Song List</button>
+            <div id="debug-output" class="debug-output">Initializing...</div>
+        </div>
+    </div>
+    
+    <audio id="audio"></audio>
+    
+    <script src="script.js"></script>
+    <script>
+        // Register service worker for PWA
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('service-worker.js')
+                    .then(reg => console.log('Service Worker registered'))
+                    .catch(err => console.log('Service Worker registration failed:', err));
+            });
+        }
+    </script>
+</body>
+</html>
